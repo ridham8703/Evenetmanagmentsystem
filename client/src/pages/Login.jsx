@@ -3,14 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
 
-
 export const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-  const { storetokenInLs } = useAuth();
+  const { storetokenInLs, userAuthentication, isVerified } = useAuth();
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -22,14 +22,24 @@ export const Login = () => {
     e.preventDefault();
     console.log(user);
 
-    // Redirect to home
-    navigate("/home");
     try {
-      const { data } = await axios.post( `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, user);
-      storetokenInLs(data.token);
-      // localStorage.setItem("token", data.token);
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
+        user
+      );
+      await storetokenInLs(data.token);
+      await userAuthentication();
       localStorage.setItem("userId", data.userId);
-      navigate("/home");
+     
+      if (data.userId) {
+        localStorage.setItem("userId", data.userId);
+      }
+      // Safely check verification status from global context
+      if (isVerified) {
+        navigate("/home");
+      } else {
+        navigate("/verify-otp");
+      }
     } catch (error) {
       console.log("Login Failed", error);
     }

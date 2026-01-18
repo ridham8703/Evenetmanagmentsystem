@@ -4,10 +4,11 @@ import { toast } from "react-toastify";
 
 export const Organizerdashoard = () => {
   const [pendingBookings, setPendingBookings] = useState([]);
+
   const getPendingBookings = async () => {
     try {
       const { data } = await axios.get(
-         `${import.meta.env.VITE_BACKEND_URL}/api/book/pending`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/book/pending`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

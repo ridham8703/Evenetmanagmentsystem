@@ -27,15 +27,39 @@ import { Adminuser } from "./pages/Adminuser";
 import { Adminlayout } from "./components/layout/Adminlayout";
 import { Admincategory } from "./pages/Admincategory";
 import { Searchresult } from "./pages/Searchresult";
+import { PublicRoute } from "./components/Publicroute";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Register />} />
-          <Route path="/verify-otp" element={<VerifyOTP />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/verify-otp"
+            element={
+              <PublicRoute>
+                <VerifyOTP />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+
           <Route path="/organizer-form" element={<Organizerform />} />
           <Route path="/qr-scan/:bookingId" element={<QRCodePage />} />
           <Route
@@ -43,7 +67,13 @@ export const App = () => {
             element={<TicketConfirmationPage />}
           />
 
-          <Route element={<Layout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />

@@ -89,6 +89,7 @@ export const registerUser = async (req, res) => {
     }
 
     // OTP is correct, allow user to set password
+    user.isVerified = true;
     user.otp = undefined;
     user.otpExpires = undefined;
 

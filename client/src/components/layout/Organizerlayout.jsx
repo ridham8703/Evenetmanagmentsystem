@@ -1,7 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Organizerheader } from "./Organizerheader";
+import { useAuth } from "../../store/auth";
+import { useEffect } from "react";
 
 export const Organizerlayout = () => {
+  const navigate = useNavigate();
+
+  const { isOrganizerApproved } = useAuth();
+  useEffect(() => {
+    if (!isOrganizerApproved) {
+      navigate("/"); 
+    }
+  }, [isOrganizerApproved]);
   return (
     <>
       <div className="flex h-screen">

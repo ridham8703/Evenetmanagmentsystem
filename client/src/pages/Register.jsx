@@ -40,7 +40,7 @@ export const Register = () => {
 
       storetokenInLs(data.token);
       localStorage.setItem("email", user.email);
-
+     
       naviagte("/verify-otp");
     } catch (error) {
       if (error.response) {

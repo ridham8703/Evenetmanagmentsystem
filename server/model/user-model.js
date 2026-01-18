@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
     otpExpires: {
       type: Date,
     },
+    isVerified: {
+      type: Boolean,
+      default: false, // user is unverified by default
+    },
     role: {
       type: String,
       enum: ["user", "organizer", "admin"],

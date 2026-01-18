@@ -8,6 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isOrganizerApproved, setIsOrganizerApproved] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+ 
 
   const authoriztiontoken = token;
 
@@ -26,11 +30,16 @@ export const AuthProvider = ({ children }) => {
     setToken("");
     setUser("");
     setRole(null);
-    setIsRegistered(false);
-    setIsOTPVerified(false);
-    setIsOTPValid(false);
+    setIsVerified(false);
+   
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
+   
 
-    return localStorage.removeItem("token");
+     localStorage.removeItem("token");
+       // Redirect to login page
+  window.location.href = "/login";
+   
   };
 
   //user data get currently login:-
@@ -49,6 +58,10 @@ export const AuthProvider = ({ children }) => {
         console.log("userData", data.userdata);
         setUser(data.userdata);
         setRole(data.userdata.role);
+        setIsVerified(data.userdata.isVerified); 
+        setIsOrganizerApproved(data.userdata.isOrganizerApproved);
+        setIsAdmin(data.userdata.isAdmin)
+      
         setIsLoading(false);
       } else {
         console.log("erro featching");
@@ -70,10 +83,12 @@ export const AuthProvider = ({ children }) => {
         storetokenInLs,
         Logoutuser,
         isloggin,
+        isVerified,
+        isOrganizerApproved,
+        isAdmin,
         user,
         role,
         userAuthentication,
-       
       }}
     >
       {children}
